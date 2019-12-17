@@ -1,5 +1,5 @@
 # new_years_companion
-An app that blends dddance.party, spotify, and wikipedia into an ungody new years countdown and recap machine.
+An app that blends [dddance.party](dddance.party), spotify, and wikipedia into an ungody new years countdown and recap machine.
 
 Recommended usage: place on an obnoxiously large screen from the hours of 8pm to 12:01am New Years Eve.
 
