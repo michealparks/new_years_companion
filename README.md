@@ -11,4 +11,5 @@ Currently configured for the 2019 - 2020 transition.
 2. `npm install` & `npm start` you know da deal
 3. Navigate like a salty sea dog to `localhost:5000/login`. This will connect the app to what you're currently playing on spotify. The [definitive best-of-2019-playlist](https://open.spotify.com/playlist/5zCCejpDV9ti90MSA6xZrt?si=l5zKPfALRaOf5FMD_77nsg) is recommended.
 4. Configure your dancers using the lovely dddance.party.
-5. Fullscreen and enjoy your party.
+5. Check out the dddance.party music+ tab and mute.
+6. Fullscreen and enjoy your party.

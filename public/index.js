@@ -87,6 +87,16 @@ const fullscreenBtn = () => {
   btn.id = 'fullscreen-btn'
   btn.textContent = 'FULLSCREEN'
   document.body.appendChild(btn)
+
+  document.addEventListener('fullscreenchange', (event) => {
+    if (document.fullscreenElement) {
+      btn.style.display = 'none'
+      dance.style.transform = 'scale(1.2)'
+    } else {
+      btn.style.display = ''
+      dance.style.transform = ''
+    }
+  })
 }
 
 const countdownTimer = () => {
