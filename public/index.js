@@ -2,17 +2,6 @@
 const spotify = document.querySelector('#spotify')
 const dance = document.querySelector('#dance-iframe')
 
-const shuffle = (a) => {
-  let j, x, i
-  for (i = a.length - 1; i > 0; i--) {
-      j = Math.floor(Math.random() * (i + 1))
-      x = a[i]
-      a[i] = a[j]
-      a[j] = x
-  }
-  return a
-}
-
 const headlines = async () => {
   const headline = document.createElement('div')
   headline.id = 'headline'
@@ -43,7 +32,16 @@ const headlines = async () => {
     }
   }
 
-  shuffle(events)
+  const shuffle = (a) => {
+    let j, x, i
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1))
+        x = a[i]
+        a[i] = a[j]
+        a[j] = x
+    }
+    return a
+  }
 
   const update = async () => {
     const { date, text } = events.pop()
@@ -53,19 +51,19 @@ const headlines = async () => {
     `
   }
 
+  shuffle(events)
   update()
   setInterval(update, 1000 * 30)
 }
 
 const currentSong = () => {
   const update = async () => {
-    const response = await window.fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+    const response = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
       headers: { 'Authorization': `Bearer ${window.spotify.access_token}` }
     })
     const json = await response.json()
     const item = json.item
-    console.log(json)
-
+  
     spotify.innerHTML = `
       <div id="spotify-text">
         <p>${item.name}</p>
@@ -77,8 +75,16 @@ const currentSong = () => {
     spotify.style.backgroundImage = `url("${json.item.album.images[0].url}")`
   }
 
+  const getNewToken = async () => {
+    const response = await fetch('/token')
+    const json = await response.json()
+
+    window.spotify.access_token = json.access_token
+  }
+
   update()
   setInterval(update, 1000 * 15)
+  setInterval(getNewToken, (window.spotify.expires_in - 60) * 1000)
 }
 
 const fullscreenBtn = () => {
@@ -88,7 +94,7 @@ const fullscreenBtn = () => {
   btn.textContent = 'FULLSCREEN'
   document.body.appendChild(btn)
 
-  document.addEventListener('fullscreenchange', (event) => {
+  document.addEventListener('fullscreenchange', () => {
     if (document.fullscreenElement) {
       btn.style.display = 'none'
       dance.style.transform = 'scale(1.2)'

@@ -3,21 +3,44 @@ const fetch = require('node-fetch')
 const querystring = require('querystring')
 const app = express()
 
-app.get('/login', function(req, res) {
-  const id = '54cc80e5d45e4a6b8dfcc2afa3248692'
-  const redirectURI = 'http://localhost:5000'
+const id = '54cc80e5d45e4a6b8dfcc2afa3248692'
+const secret = '1dbca77cfba24968b0d32979acfd7e15'
+const redirectURI = 'http://localhost:5000/callback'
+
+let code
+let refreshToken
+
+app.use(express.static('public'))
+
+app.get('/token', async () => {
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: querystring.stringify({
+      grant_type: 'refresh_token',
+      client_id: id,
+      client_secret: secret,
+      refresh_token: refreshToken
+    })
+  })
+  const json = await response.json()
+
+  console.log('/token', json)
+})
+
+app.get('/login', (req, res) => {
   const scopes = 'user-read-playback-state'
 
   res.redirect('https://accounts.spotify.com/authorize' +
     '?response_type=code' +
-    '&client_id=' + id +
-    '&scope=' + encodeURIComponent(scopes) +
-    '&redirect_uri=' + encodeURIComponent(redirectURI)
+    `&client_id=${id}` +
+    `&scope=${encodeURIComponent(scopes)}` +
+    `&redirect_uri=${encodeURIComponent(redirectURI)}`
   )
 })
 
-app.get('/', async (req, res) => {
-  const code = req.query.code
+app.get('/callback', async (req, res) => {
+  code = code || req.query.code
 
   if (!code) {
     res.redirect('/login')
@@ -28,25 +51,29 @@ app.get('/', async (req, res) => {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: querystring.stringify({
       code,
-      client_id: '54cc80e5d45e4a6b8dfcc2afa3248692',
-      client_secret: '1dbca77cfba24968b0d32979acfd7e15',
-      grant_type: 'authorization_code',
-      redirect_uri: 'http://localhost:5000'
+      redirectURI,
+      client_id: id,
+      client_secret: secret,
+      redirect_uri: redirectURI,
+      grant_type: 'authorization_code'
     })
   })
+  const token = await response.json()
 
-  const tokens = await response.json()
+  refreshToken = token.refresh_token
 
-  res.send(render(tokens))
+  res.send(render(token))
 })
 
-app.use(express.static('public'))
+app.use((req, res) => {
+  res.status(404).redirect('/login')
+})
 
 app.listen(5000, () => {
   console.log('App listening on port 5000')
 })
 
-const render = (tokens) => {
+const render = (token) => {
   return `
     <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display|VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="index.css">
@@ -57,9 +84,8 @@ const render = (tokens) => {
   
     <script>
     window.spotify = {
-      access_token: "${tokens.access_token}",
-      refresh_token: "${tokens.refresh_token}",
-      expires_in: "${tokens.expires_in}"
+      access_token: "${token.access_token}",
+      expires_in: "${token.expires_in}"
     }
     </script>
     <script async type="module" src="index.js"></script>
