@@ -14,6 +14,30 @@ body {
   border: 0;
 }
 
+#fireworks-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#youtube-embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+#dance-iframe,
+#youtube-embed {
+  transition: 1s;
+}
+
 #counter {
   position: absolute;
   top: 50px;
@@ -22,6 +46,25 @@ body {
   font-size: 56px;
   animation: colors 4s steps(3, end) infinite;
   font-family: 'VT323', monospace;
+  pointer-events: none;
+}
+
+#large-counter {
+  position: absolute;
+  font-size: 500px;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  margin: -300px;
+  height: 600px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  color: #fff;
+  font-family: 'VT323', monospace;
+  pointer-events: none;
 }
 
 @keyframes colors {
