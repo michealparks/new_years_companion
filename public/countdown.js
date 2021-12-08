@@ -29,6 +29,8 @@ let intervalId = -1
 let lastSec = 0
 let didFireworksInit = false
 
+fireworks.init()
+
 const update = () => {
   const remaining = new Date('Mon Jan 1 2020') - new Date()
 
@@ -36,7 +38,7 @@ const update = () => {
     counter.textContent = 'HAPPY NEW YEAR'
 
     if (!didFireworksInit) {
-      fireworks.init()
+      
       didFireworksInit = true
     }
 

@@ -25,6 +25,8 @@ const main = async () => {
 
     const json = await response.json()
 
+    console.log('youtube', json)
+
     youtubeEmbed.onload = () => {
       danceFrame.style.opacity = '0.75'
       youtubeEmbed.style.opacity = '1.0'
@@ -34,8 +36,6 @@ const main = async () => {
     youtubeEmbed.src = `https://www.youtube.com/embed/${json.items[0].id.videoId}?&autoplay=1&mute=1&loop=1&showinfo=0&controls=0`
 
     lastQuery = query
-
-    console.log(json)
   }
 
   state.subscribe('UPDATE_SONG', update)
