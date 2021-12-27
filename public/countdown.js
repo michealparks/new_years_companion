@@ -1,3 +1,5 @@
+import { fireworks } from './fireworks.js'
+
 const fonts = [
   'Bangers',
   'Monoton',
@@ -29,23 +31,25 @@ let intervalId = -1
 let lastSec = 0
 let didFireworksInit = false
 
-fireworks.init()
+
+const year = new Date().getFullYear()
 
 const update = () => {
-  const remaining = new Date('Mon Jan 1 2020') - new Date()
+  const remaining = new Date(`Mon Jan 1 ${year + 1}`) - new Date()
 
   if (remaining <= 0) {
     counter.textContent = 'HAPPY NEW YEAR'
 
     if (!didFireworksInit) {
-      
+      fireworks.init()
+
       didFireworksInit = true
     }
 
     clearInterval(intervalId)
     return
   }
-  
+
   const days = remaining / 1000 / 60 / 60 / 24 | 0
   const hours = (remaining - (days * oneDay)) / 1000 / 60 / 60 | 0
   const min = (remaining - (days * oneDay) - (hours * oneHour)) / 1000 / 60 | 0
@@ -60,10 +64,10 @@ const update = () => {
       largeCounter.style.fontFamily = font
       lastSec = sec
     }
-  
+
     largeCounter.textContent = sec
   }
-  
+
   counter.textContent = str
 }
 

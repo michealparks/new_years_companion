@@ -20,7 +20,7 @@ const init = () => {
   }
   setInterval(launch, 400);
 
-  window.requestAnimationFrame(loop)
+  requestAnimationFrame(loop)
 }
 
 function launch() {
@@ -44,7 +44,7 @@ function launchFrom(x) {
 }
 
 function loop() {
-  window.requestAnimationFrame(loop)
+  requestAnimationFrame(loop)
 
   // update screen size
   if (SCREEN_WIDTH != window.innerWidth) {

@@ -1,15 +1,29 @@
 # new_years_companion
-An app that blends [dddance.party](dddance.party), youtube, spotify, and wikipedia into an ungody new years countdown and recap machine.
+An app that blends youtube, spotify, and wikipedia into an ungodly new years countdown and recap machine.
 
-Recommended usage: place on an obnoxiously large screen from the hours of 8pm to 12:01am New Years Eve.
+Recommended usage: place on an obnoxiously large screen from the hours of 8pm to 11:59:59pm New Years Eve.
 
-Currently configured for the 2019 - 2020 transition.
+### Prereqs
+The following credentials must be obtained and a root-level `credentials.js` file must be created:
+
+```js
+export default {
+  youtube: '...',
+  spotify: {
+    id: '...',
+    secret: '...'
+  },
+  twitter: {
+    key: '...',
+    secret: '...',
+    bearer: '...'
+  }
+}
+```
 
 ### Getting Started
 
 1. Get Pumped.
 2. `npm install` & `npm start` you know da deal
-3. Navigate like a salty sea dog to `localhost:5000/login`. This will connect the app to what you're currently playing on spotify. The [definitive best-of-2019-playlist](https://open.spotify.com/playlist/5zCCejpDV9ti90MSA6xZrt?si=l5zKPfALRaOf5FMD_77nsg) is recommended.
-4. Configure your dancers using the lovely dddance.party.
-5. Check out the dddance.party music+ tab and mute.
+3. Navigate like a salty sea dog to `localhost:3000/login`. This will connect the app to what you're currently playing on spotify. The [definitive best-of-2021-playlist](https://open.spotify.com/playlist/21XYYVREXgCUQGS0g0jhfm?si=0721cda1f7a9444b) is recommended.
 6. Fullscreen and enjoy your party.
